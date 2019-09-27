@@ -3,6 +3,7 @@ using RuleEngineCore.Annotaion;
 using System.Linq;
 using System.Reflection;
 using RuleEngineCore.RuleEngine.Exceptions;
+using System;
 
 namespace RuleEngineCore.RuleEngine
 {
@@ -57,38 +58,61 @@ namespace RuleEngineCore.RuleEngine
         {
             if (Evaluate(facts))
             {
-                MethodInfo[] actions = _object
-                    .GetType()
-                    .GetMethods()
-                    .Where(x => x.GetCustomAttributes(typeof(ActionAttribute), false).Length > 0)
-                    .OrderBy(x =>
-                    {
-                        var order = int.MaxValue;
-                        foreach (var attr in x.GetCustomAttributes(true))
-                        {
-                            var actionAttribute = attr as ActionAttribute;
-                            if (actionAttribute == null) continue;
+                ExecuteActionsByPriority();
 
-                            order = actionAttribute.Order;
-                            break;
-                        }
-                        return order;
-                    })
-                    .ToArray();
-
-                foreach (var action in actions)
+                var ruleAttribute = (_object.GetType().GetCustomAttribute(typeof(RuleAttribute)) as RuleAttribute);
+                if (ruleAttribute.NextRule != null)
                 {
-                    action.Invoke(_object, new object[] { });
+                    ExecuteNextRule(facts);
                 }
             }
             else
             {
-                RuleException ruleException = null ;
+                RuleException ruleException = null;
                 foreach (var errorMessage in _errorMessages)
                 {
                     ruleException = new RuleException(errorMessage, ruleException);
                 }
                 throw new RuleException(_object.GetType().FullName, ruleException);
+            }
+        }
+
+        private void ExecuteActionsByPriority()
+        {
+            MethodInfo[] actions = _object
+                            .GetType()
+                            .GetMethods()
+                            .Where(x => x.GetCustomAttributes(typeof(ActionAttribute), false).Length > 0)
+                            .OrderBy(x =>
+                            {
+                                var order = int.MaxValue;
+                                foreach (var attr in x.GetCustomAttributes(true))
+                                {
+                                    var actionAttribute = attr as ActionAttribute;
+                                    if (actionAttribute == null) continue;
+
+                                    order = actionAttribute.Order;
+                                    break;
+                                }
+                                return order;
+                            })
+                            .ToArray();
+
+            foreach (var action in actions)
+            {
+                action.Invoke(_object, new object[] { });
+            }
+        }
+
+        private void ExecuteNextRule(Facts facts)
+        {
+            var ruleAttribute = (_object.GetType().GetCustomAttribute(typeof(RuleAttribute)) as RuleAttribute);
+            var nextRuleType = ruleAttribute.NextRule;
+            if (nextRuleType.GetCustomAttribute(typeof(RuleAttribute)) != null)
+            {
+                var nextRuleInstance = Activator.CreateInstance(nextRuleType);
+                var nextRule = new Rule(nextRuleInstance);
+                nextRule.Execute(facts);
             }
         }
     }
