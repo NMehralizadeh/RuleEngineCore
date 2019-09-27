@@ -1,17 +1,17 @@
 RuleEngine in .net Core
 
-This Project is a really simple rule engine maker that you can define your facts and develop the main functionality of rules that you are free to choose method name.
-You just need use our annotation for demonestrate actions and conditions.
+This Project is a really simple rule engine maker that you can define your facts and develop the main functionality of rules that you are free to choose the method name.
+You just need to use our annotation to demonstrate actions and conditions.
 
 ## Rule
-You must create new instance of rule and pass your rule class as input then call `Execute` method.
+You must create a new instance of rule and pass your rule class as input then call `Execute` method.
 
 ## Facts
-You can define your facts as a input values to rules. You can add in your facts in every step of rule action method also.
+You can define your facts as an input value to rules. You can add in your facts in every step of rule action method also.
 
 #### Usage
-Create new instance of facts and set key value base all facts.
-If you want to get a fact value in condition but you don't define in facts it must raise error.
+Create a new instance of facts and set key-value base all facts.
+If you want to get a fact's value in condition but you don't define in facts it must raise an error.
 
 ## Annotations
 - Action
@@ -19,7 +19,7 @@ If you want to get a fact value in condition but you don't define in facts it mu
 - Rule
 
 ### Action
-This annoatation can only set on `Methods`. You can define more than one action with priority for every rule.
+This annotation can only set on `Methods`. You can define more than one action with priority for every rule.
 
 #### Usage
 - Return `Void`
@@ -28,20 +28,20 @@ This annoatation can only set on `Methods`. You can define more than one action 
 - Order : It's not requeried.Default value is `1`
 
 ### Condition
-This annotation can only set on `Methods`. You can define more than one condition. After evalutes all condition rule engine execute all actions that you develope. 
+This annotation can only set on `Methods`. You can define more than one condition. After evaluates all condition rule engine executes all actions that you develop. 
 #### Usage
 - Return `Bool`
-- Args as demonostrate in FactArgs with same priority
+- Args as demonstrate in FactArgs with the same priority
 
 #### Properties
-- FactArgs: Comma seprated facts name
-- ExceptionMessage: The message must be raised as Rule Exception when this conditon result it's not true
+- FactArgs : Comma separated facts name
+- ExceptionMessage : The message must be raised as Rule Exception when this condition result it's not true
 
 ### Rule
-This annotation can set on class. You can have more than one rule.
+This annotation can only set on the class. You can have more than one rule.
 #### Usage
-You must set on class as attribute that is your rule.
+You must set on the class as an attribute that is your rule.
 #### Properties
 - Name : It's optional and you can set this rule name.
-- Description : It's optional and you can set main functionality of this rule.
-- NextRule : It's optional and you can set type of next rule that you have and used rule attribute. Rule engine after run current rule actions evaluate the next one and execute if everything is going well.
+- Description : It's optional and you can set the main functionality of this rule.
+- NextRule : It's optional and you can set the type of next rule that you have and used the rule attribute. Rule engine after running current rule actions evaluate the next one and execute if everything is going well.

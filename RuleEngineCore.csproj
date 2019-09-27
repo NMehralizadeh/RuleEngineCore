@@ -1,7 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Authors>Navid Mehralizadeh</Authors>
+    <Description>
+      This Project is a really simple rule engine maker that you can define your facts and develop the main functionality of rules that you are free to choose the method name.
+      You just need to use our annotation to demonstrate actions and conditions.
+    </Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
 </Project>
