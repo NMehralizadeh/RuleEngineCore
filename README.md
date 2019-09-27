@@ -5,10 +5,9 @@ You just need use our annotation for demonestrate actions and conditions.
 
 ## Rule
 You must create new instance of rule and pass your rule class as input then call `Execute` method.
-You can define type of next rule that have rule annotation for running after evaluate current rule.
 
 ## Facts
-You can define your facts as a input values to rules.
+You can define your facts as a input values to rules. You can add in your facts in every step of rule action method also.
 
 #### Usage
 Create new instance of facts and set key value base all facts.
@@ -29,7 +28,7 @@ This annoatation can only set on `Methods`. You can define more than one action 
 - Order : It's not requeried.Default value is `1`
 
 ### Condition
-This annotation can set on `Methods` only. You can define more than one condition. After evalutes all condition rule engine execute all actions that you develope. 
+This annotation can only set on `Methods`. You can define more than one condition. After evalutes all condition rule engine execute all actions that you develope. 
 #### Usage
 - Return `Bool`
 - Args as demonostrate in FactArgs with same priority
@@ -45,3 +44,4 @@ You must set on class as attribute that is your rule.
 #### Properties
 - Name : It's optional and you can set this rule name.
 - Description : It's optional and you can set main functionality of this rule.
+- NextRule : It's optional and you can set type of next rule that you have and used rule attribute. Rule engine after run current rule actions evaluate the next one and execute if everything is going well.
